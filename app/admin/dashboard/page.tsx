@@ -18,7 +18,9 @@ export default async function AdminDashboardPage() {
       prisma.project.findMany({ orderBy: { order: 'asc' } }),
       prisma.certificate.findMany({ orderBy: { order: 'asc' } }),
       prisma.achievement.findMany({ orderBy: { order: 'asc' } }),
-      prisma.message.findMany({ orderBy: { createdAt: 'desc' } }),
+      prisma.message.findMany({ orderBy: { createdAt: 'desc' } }).then(msgs =>
+        msgs.map(m => ({ ...m, createdAt: m.createdAt.toISOString() }))
+      ),
     ])
 
   return (
